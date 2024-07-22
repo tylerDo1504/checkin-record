@@ -1,7 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import path from "path";
-import "./ipc-handler";
 import { initializeDatabase } from "../utils/database";
+import "./ipc-handler";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {

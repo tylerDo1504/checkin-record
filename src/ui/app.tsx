@@ -1,6 +1,6 @@
-import { ConfigProvider, App as AntdApp, Button, Table } from "antd";
-import { CONFIG_COLUMNS, RECORD_KEY } from "./constants";
+import { App as AntdApp, Button, ConfigProvider, Table } from "antd";
 import { useState } from "react";
+import { CONFIG_COLUMNS, RECORD_KEY } from "./constants";
 import { RecordModel } from "./models";
 
 export function App() {

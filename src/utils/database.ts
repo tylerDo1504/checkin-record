@@ -1,8 +1,8 @@
-import * as fs from "fs";
 import Database from "better-sqlite3";
-import { readExcelFile } from "../utils/excel";
-import * as path from "path";
 import { app } from "electron";
+import * as fs from "fs";
+import * as path from "path";
+import { readExcelFile } from "../utils/excel";
 
 export const DATABASE_FILE = path.join(app.getPath("userData"), "app.db");
 const EXCEL_FILE = path.join(__dirname, "assets/Demo-data.xlsx"); // Adjust the path to access the public directory
