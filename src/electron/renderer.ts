@@ -26,7 +26,6 @@
  * ```
  */
 
-import "../index.css";
 import "../ui/main";
 
 console.log(
