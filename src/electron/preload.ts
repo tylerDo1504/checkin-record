@@ -8,4 +8,12 @@ contextBridge.exposeInMainWorld("electronAPI", {
   getData: async () => await ipcRenderer.invoke(IPC_KEY_HANDLER.GET_DATA),
   getAllTable: async () =>
     await ipcRenderer.invoke(IPC_KEY_HANDLER.GET_ALL_TABLES),
+  getCount: async () => await ipcRenderer.invoke(IPC_KEY_HANDLER.COUNT_UPDATED),
+  onCountUpdate: (callback: (count: number) => void) => {
+    ipcRenderer.on(IPC_KEY_HANDLER.COUNT_UPDATED, (_event, count) => {
+      console.log(count, "count de");
+      callback(count);
+    });
+  },
+  removeCounter: () => ipcRenderer.invoke(IPC_KEY_HANDLER.REMOVE_COUNTER),
 });

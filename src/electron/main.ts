@@ -1,7 +1,12 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, Menu, Tray } from "electron";
 import path from "path";
+import { CountManager } from "../utils/count";
 import { initializeDatabase } from "../utils/database";
 import "./ipc-handler";
+
+let tray: Tray | null = null;
+let mainWindow: BrowserWindow | null = null;
+let isQuitting = false;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -10,7 +15,7 @@ if (require("electron-squirrel-startup")) {
 
 const createWindow = () => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -27,8 +32,17 @@ const createWindow = () => {
     );
   }
 
+  // Handle window close event
+  mainWindow.on("close", (event) => {
+    if (!isQuitting) {
+      event.preventDefault();
+      mainWindow.hide();
+    }
+    return false;
+  });
+
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -37,6 +51,40 @@ const createWindow = () => {
 app.on("ready", async () => {
   await initializeDatabase();
   createWindow();
+});
+
+app.whenReady().then(() => {
+  const TRAY_ICON_PATH = path.join(__dirname, "images/timetable.png"); // Adjust the path to access the public directory
+  tray = new Tray(TRAY_ICON_PATH);
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: "Show App",
+      click: () => {
+        // Logic to show the app window
+        // For example, you can show the main window if it's hidden
+        if (mainWindow) {
+          mainWindow.show();
+        }
+      },
+    },
+    {
+      label: "Quit App",
+      click: () => {
+        const countManager = CountManager.getInstance();
+
+        isQuitting = true;
+        countManager.stopCounting();
+        app.quit();
+      },
+    },
+  ]);
+  tray.on("click", () => {
+    if (mainWindow) {
+      mainWindow.show();
+    }
+  });
+  tray.setToolTip("Click to show Checkin Record");
+  tray.setContextMenu(contextMenu);
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

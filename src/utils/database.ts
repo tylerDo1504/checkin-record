@@ -4,7 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { readExcelFile } from "../utils/excel";
 
-export const DATABASE_FILE = path.join(app.getPath("userData"), "app.db");
+const DATABASE_FILE = path.join(app.getPath("userData"), "app.db");
 const EXCEL_FILE = path.join(__dirname, "assets/Demo-data.xlsx"); // Adjust the path to access the public directory
 
 export async function initializeDatabase() {
