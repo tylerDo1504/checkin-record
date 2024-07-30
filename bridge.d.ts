@@ -1,4 +1,4 @@
-import { RecordModel } from "./src/ui/models";
+import { RecordModel } from "./src/web/models";
 
 export interface IElectronAPI {
   getData: () => Promise<RecordModel[]>;

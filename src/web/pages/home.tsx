@@ -1,18 +1,14 @@
-import {
-  App as AntdApp,
-  Badge,
-  Button,
-  ConfigProvider,
-  Table,
-  Typography,
-} from "antd";
+import { Badge, Button, Table, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { CONFIG_COLUMNS, RECORD_KEY } from "./constants";
-import { RecordModel } from "./models";
+import { Link } from "react-router-dom";
+import { CONFIG_COLUMNS, RECORD_KEY } from "../constants";
+import { RecordModel } from "../models";
 
-export function App() {
+function HomePage() {
   const [data, setData] = useState<RecordModel[]>([]);
   const [count, setCount] = useState(0);
+
+  console.log("AUTH IN HOME PAGE");
 
   const onClickButton = async () => {
     const loadData = await window.electronAPI.getData();
@@ -44,22 +40,21 @@ export function App() {
   }, []);
 
   return (
-    <ConfigProvider>
-      <AntdApp>
-        <div className="w-full flex flex-col space-y-4 p-16">
-          <div className="flex justify-between">
-            <Button onClick={onClickButton}>Load Data</Button>
-            <Badge count={count} className="p-2">
-              <Typography>Tick</Typography>
-            </Badge>
-          </div>
-          <Table
-            rowKey={RECORD_KEY.ID}
-            columns={CONFIG_COLUMNS}
-            dataSource={data}
-          />
-        </div>
-      </AntdApp>
-    </ConfigProvider>
+    <div className="w-full flex flex-col space-y-4 p-16">
+      <div className="flex justify-between">
+        <Button onClick={onClickButton}>Load Data</Button>
+        <Badge count={count} className="p-2">
+          <Typography>Tick</Typography>
+        </Badge>
+        <Link to={"/test"}>Link TEst</Link>
+      </div>
+      <Table
+        rowKey={RECORD_KEY.ID}
+        columns={CONFIG_COLUMNS}
+        dataSource={data}
+      />
+    </div>
   );
 }
+
+export default HomePage;

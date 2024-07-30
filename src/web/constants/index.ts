@@ -1,6 +1,8 @@
 import { TableColumnProps } from "antd";
 import { RecordModel } from "../models";
 
+export * from "./path";
+
 export const RECORD_KEY = {
   ID: "id",
   USERNAME: "username",
